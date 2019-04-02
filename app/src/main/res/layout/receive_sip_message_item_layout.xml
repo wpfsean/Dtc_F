@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--接收Sip消息的View-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--显示短消息内容-->
+    <TextView
+        android:id="@+id/prompt_sip_message_tv_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5dp"
+        android:padding="3dp" />
+
+</LinearLayout>

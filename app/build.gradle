@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.tehike.client.dtc.single.app.project"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 2
+        versionName "1.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+         //   signingConfig signingConfigs.release
+        }
+    }
+
+    sourceSets {
+        main {
+            //jni库的调用会到资源文件夹下libs里面找so文件
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    //
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
+    }
+    //加载lib下的文件
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    //签名时生成apk名
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { //这里修改apk文件
+            outputFileName = "Dtc_F${releaseTime()}_v${variant.versionName}.apk"
+        }
+    }
+}
+//生成apk名时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd HH-mm-ss")
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //linphone
+    compile(name: 'liblinphone-android-sdk', ext: 'aar')
+    //串口
+    compile project(':SerialPortLibrary')
+    //众云
+    implementation files('libs/ZY-Interface.jar')
+    //注释框架
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    //gson
+    compile 'com.google.code.gson:gson:2.6.2'
+    //播放器
+    compile project(':nodemediaclient')
+    //recyclerview
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    //sql查看
+    implementation files('libs/SQLiteStudioRemote.jar')
+    //讯飞
+    implementation files('libs/Msc.jar')
+}

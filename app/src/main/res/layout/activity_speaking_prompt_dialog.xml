@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--指定设备喊话时的View-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <!--父布局-->
+    <RelativeLayout
+        android:layout_width="276dp"
+        android:layout_height="274dp"
+        android:layout_margin="1dp"
+        android:background="@mipmap/port_propaganda_background">
+
+        <!--喊话对象名称-->
+        <TextView
+            android:id="@+id/speaking_name_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="AAAAAAAAAAAAAA"
+            android:textColor="#eb0000"
+            android:textSize="16sp" />
+
+        <!--喊话 时长-->
+        <TextView
+            android:id="@+id/speaking_time_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/speaking_name_layout"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="00:00"
+            android:textColor="#00ffff"
+            android:textSize="36sp" />
+
+        <!--关闭喊话-->
+        <TextView
+            android:id="@+id/seaking_close_dialog_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="41dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="结束喊话"
+            android:textColor="#00ffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
