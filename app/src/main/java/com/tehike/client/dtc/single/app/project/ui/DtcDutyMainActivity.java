@@ -283,6 +283,7 @@ public class DtcDutyMainActivity extends BaseActivity implements RadioGroup.OnCh
         @Override
         public void onReceive(Context context, Intent intent) {
             boolean isNormal = intent.getBooleanExtra("isNormal", false);
+            Logutil.e("广播收到的网络状态："+isNormal);
             if (isNormal) {
                 handler.sendEmptyMessage(5);
             } else {
@@ -331,6 +332,14 @@ public class DtcDutyMainActivity extends BaseActivity implements RadioGroup.OnCh
         if (!ServiceUtil.isServiceRunning(ReceiveOpenDoorRequestService.class)) {
             ServiceUtil.startService(ReceiveOpenDoorRequestService.class);
         }
+        //定时刷新网络
+        if (!ServiceUtil.isServiceRunning(TimingRefreshNetworkStatus.class)) {
+            ServiceUtil.startService(TimingRefreshNetworkStatus.class);
+        }
+        //启动被动远程操作的服务
+        if (!ServiceUtil.isServiceRunning(RemoteVoiceOperatService.class)) {
+            ServiceUtil.startService(RemoteVoiceOperatService.class);
+        }
     }
 
     /**
@@ -375,8 +384,6 @@ public class DtcDutyMainActivity extends BaseActivity implements RadioGroup.OnCh
             Logutil.e(Thread.currentThread().getStackTrace()[2].getClassName() + "获取数据异常--->>>" + e.getMessage());
         }
     }
-
-    SimpleDateFormat yearFormat;
 
     /**
      * 初始化显示时间
@@ -651,6 +658,7 @@ public class DtcDutyMainActivity extends BaseActivity implements RadioGroup.OnCh
 
         ActivityUtils.removeAllActivity();
 
+        AppConfig.SIP_STATUS = false;
         Linphone.getLC().clearProxyConfigs();
     }
 

@@ -1011,23 +1011,6 @@ public class IntercomCallFragment extends BaseFragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 int state = jsonArray.getJSONObject(i).getInt("state");
                 String name = jsonArray.getJSONObject(i).getString("usrname");
-
-                //获取本机的Sip状态
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(currentNativeSipNum)) {
-                    if (currentNativeSipNum.equals(name)) {
-                        int nativeStatus = state;
-                        if (nativeStatus == 0) {
-                            AppConfig.SIP_STATUS = false;
-                            handler.sendEmptyMessage(18);
-                        } else if (nativeStatus == 1) {
-                            AppConfig.SIP_STATUS = true;
-                            handler.sendEmptyMessage(17);
-                        } else {
-                            AppConfig.SIP_STATUS = false;
-                            handler.sendEmptyMessage(18);
-                        }
-                    }
-                }
                 SipStatusInfoBean mSipStatusInfoBean = new SipStatusInfoBean();
                 mSipStatusInfoBean.setName(name);
                 mSipStatusInfoBean.setState(state);
@@ -2187,28 +2170,22 @@ public class IntercomCallFragment extends BaseFragment {
             if (sipItemAdapter != null) {
                 sipItemAdapter.notifyDataSetChanged();
             }
-
-            //更改sip的状态标识
-            if (AppConfig.SIP_STATUS) {
-                handler.sendEmptyMessage(17);
-            } else {
-                handler.sendEmptyMessage(18);
-            }
             //启动Sip服务
             if (!SipService.isReady() || !SipManager.isInstanceiated()) {
                 Linphone.startService(App.getApplication());
-
             }
 
             //SIp注册状态和来电状态监听回调
             Linphone.addCallback(new RegistrationCallback() {
                 @Override
                 public void registrationOk() {
+                    AppConfig.SIP_STATUS = true;
                     handler.sendEmptyMessage(17);
                 }
 
                 @Override
                 public void registrationFailed() {
+                    AppConfig.SIP_STATUS = false;
                     handler.sendEmptyMessage(18);
                 }
             }, new PhoneCallback() {
@@ -2815,7 +2792,7 @@ public class IntercomCallFragment extends BaseFragment {
                     //提示中心连接状态正常
                     if (getActivity() != null) {
                         currentServerCenterTv.setTextColor(0xff6adeff);
-                        currentServerCenterTv.setText("中心状态:连接正常");
+                        currentServerCenterTv.setText("中心状态:已注册");
                     }
                     break;
                 case 18:

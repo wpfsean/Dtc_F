@@ -34,8 +34,9 @@ public class TimingRefreshNetworkStatus extends Service {
         //启动线程池服务让子线程去处理
         if (timingPoolTaskService == null) {
             timingPoolTaskService = Executors.newSingleThreadScheduledExecutor();
-            timingPoolTaskService.scheduleWithFixedDelay(new RefrshNetworkThread(), 0L, 3000, TimeUnit.MILLISECONDS);
         }
+        timingPoolTaskService.scheduleWithFixedDelay(new RefrshNetworkThread(), 0L, 3000, TimeUnit.MILLISECONDS);
+
     }
 
     @Nullable
@@ -60,12 +61,12 @@ public class TimingRefreshNetworkStatus extends Service {
         @Override
         public void run() {
             boolean networkStatus = NetworkUtils.isConnected();
-           // Logutil.d("网络状态---->>>" + networkStatus);
+            Logutil.d("网络状态---->>>" + networkStatus);
             Intent intent = new Intent();
             intent.setAction(AppConfig.REFRESH_NETWORK_ACTION);
             intent.putExtra("isNormal", networkStatus);
             App.getApplication().sendBroadcast(intent);
-           // Logutil.d("网络状态---->>>" + networkStatus);
+          //  Logutil.d("网络状态---->>>" + networkStatus);
             if (!networkStatus) {
                 Logutil.d("networkStatus--->>" + networkStatus);
             }

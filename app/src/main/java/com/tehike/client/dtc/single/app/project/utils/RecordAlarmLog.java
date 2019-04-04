@@ -19,7 +19,7 @@ import java.util.Date;
  * @Create at:$date$ $time$
  */
 
-public class RecordLog {
+public class RecordAlarmLog {
 
     public static void wirteLog(String content) {
 
@@ -38,7 +38,7 @@ public class RecordLog {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String fileName = simpleDateFormat.format(date);
-        File file = new File(new File(path), fileName + "-Log.txt");
+        File file = new File(new File(path), fileName + "Alarm-Log.txt");
 
         //判断当前的日志文件是否存在
         try {

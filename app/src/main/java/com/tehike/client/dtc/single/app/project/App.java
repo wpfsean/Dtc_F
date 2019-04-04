@@ -269,17 +269,9 @@ public class App extends Application {
         CpuAndRamUtils.getInstance().init(getApplicationContext(), 5 * 1000L);
         CpuAndRamUtils.getInstance().start();
 
-        //启动被动远程操作的服务
-        if (!ServiceUtil.isServiceRunning(RemoteVoiceOperatService.class)) {
-            ServiceUtil.startService(RemoteVoiceOperatService.class);
-        }
         //启动被动修改ip
         if (!ServiceUtil.isServiceRunning(TerminalUpdateIpService.class)) {
             ServiceUtil.startService(TerminalUpdateIpService.class);
-        }
-        //定时刷新网络
-        if (!ServiceUtil.isServiceRunning(TimingRefreshNetworkStatus.class)) {
-            ServiceUtil.startService(TimingRefreshNetworkStatus.class);
         }
         //用于修改系统设置
         if (!ServiceUtil.isServiceRunning(InitSystemSettingService.class)) {

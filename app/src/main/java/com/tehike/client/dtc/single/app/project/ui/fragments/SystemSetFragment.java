@@ -926,8 +926,11 @@ public class SystemSetFragment extends BaseFragment {
         if (SipManager.getLc().getCalls().length>0){
             SipManager.getLc().terminateAllCalls();
         }
+        AppConfig.SIP_STATUS = false;
         //清除sip代理
         SipManager.getLc().clearProxyConfigs();
+
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**

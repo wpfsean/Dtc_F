@@ -8,13 +8,11 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.text.TextUtils;
 
 import com.tehike.client.dtc.single.app.project.App;
 import com.tehike.client.dtc.single.app.project.db.DbHelper;
 import com.tehike.client.dtc.single.app.project.db.DbUtils;
-import com.tehike.client.dtc.single.app.project.entity.AlarmVideoSource;
 import com.tehike.client.dtc.single.app.project.entity.OpenBoxParamater;
 import com.tehike.client.dtc.single.app.project.entity.SipBean;
 import com.tehike.client.dtc.single.app.project.global.AppConfig;
@@ -24,7 +22,6 @@ import com.tehike.client.dtc.single.app.project.utils.CryptoUtil;
 import com.tehike.client.dtc.single.app.project.utils.FileUtil;
 import com.tehike.client.dtc.single.app.project.utils.GsonUtils;
 import com.tehike.client.dtc.single.app.project.utils.Logutil;
-import com.tehike.client.dtc.single.app.project.utils.RecordLog;
 import com.tehike.client.dtc.single.app.project.utils.SysinfoUtils;
 import com.tehike.client.dtc.single.app.project.utils.TimeUtils;
 
@@ -32,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.List;
 
 /**

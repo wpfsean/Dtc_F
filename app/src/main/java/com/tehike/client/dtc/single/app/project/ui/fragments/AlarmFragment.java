@@ -511,8 +511,8 @@ public class AlarmFragment extends BaseFragment implements View.OnClickListener 
         initializeView();
         //加载所有的报警队列数据
         initlizeAlarmQueueAdapterData();
-        //从网络加载背景地图的图片
-        initBackgroupBitmap(AppConfig.WEB_HOST + SysinfoUtils.getServerIp() + AppConfig.BACKGROUP_MAP_URL);
+        //加载背景地图
+        initLocationMapUrl();
         //注册广播接收报警信息
         registerReceiveAlarmBroadcast();
         //注册广播监听申请供弹
@@ -535,6 +535,70 @@ public class AlarmFragment extends BaseFragment implements View.OnClickListener 
         registerReceiveRefreshProcessedAlarmQueueAndEventQueueBroadcast();
         //注册广播监听键盘操作报警队列的动作
         registerKeyBoardCloseAlarmLightBroadcast();
+    }
+
+    /**
+     * 加载背景地图的url
+     */
+    private void initLocationMapUrl() {
+        if (SysinfoUtils.getSysinfo()==null){
+            return;
+        }
+        //测试
+        final String requestUrl = AppConfig.WEB_HOST + SysinfoUtils.getSysinfo().getWebresourceServer() + AppConfig._LOCATIONS;
+        //请求Locations资源
+        HttpBasicRequest httpBasicRequest = new HttpBasicRequest(requestUrl, new HttpBasicRequest.GetHttpData() {
+            @Override
+            public void httpData(String result) {
+                Message message = new Message();
+                message.obj = result;
+                message.what = 7;
+                handler.sendMessage(message);
+            }
+        });
+        new Thread(httpBasicRequest).start();
+    }
+
+    /**
+     * 处理地图信息
+     */
+    private void handlerLocationsData(String locationsData) {
+
+        String nativeGuid = SysinfoUtils.getSysinfo().getDeviceGuid();
+        String mapUrl = "";
+        if (TextUtils.isEmpty(nativeGuid)) {
+            Logutil.e("nativeGuid is null");
+            return;
+        }
+
+        if (!TextUtils.isEmpty(locationsData) && !locationsData.contains("Execption") && !locationsData.contains("errorCode")) {
+            try {
+                JSONObject jsonObject = new JSONObject(locationsData);
+                JSONArray jsonArray = jsonObject.getJSONArray("terminals");
+                if (jsonArray.length() == 0) {
+                    return;
+                }
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonItem = jsonArray.getJSONObject(i);
+                    String guid = jsonItem.getString("guid");
+                    if (guid.equals(nativeGuid)) {
+                        mapUrl = jsonItem.getString("mapUrl");
+                    }
+                }
+                Logutil.e("mapurl:" + mapUrl);
+                if (TextUtils.isEmpty(mapUrl)) {
+                    Logutil.e("mapUrl is null");
+                    return;
+                }
+                //从网络加载背景地图的图片
+                initBackgroupBitmap(mapUrl);
+
+
+            } catch (Exception e) {
+
+            }
+        }
+
     }
 
     /**
@@ -2709,6 +2773,11 @@ public class AlarmFragment extends BaseFragment implements View.OnClickListener 
                     //报警源播放器状态回调
                     int alarmStatusEvent = msg.arg1;
                     alarmPlayerPlayStatusCallback(alarmStatusEvent);
+                    break;
+                case 7:
+                    //加载 locations资源数据
+                    String locationsData = (String) msg.obj;
+                    handlerLocationsData(locationsData);
                     break;
                 case 8:
                     //提示报警源视频无法加载

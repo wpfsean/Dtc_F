@@ -6,12 +6,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.tehike.client.dtc.single.app.project.App;
 import com.tehike.client.dtc.single.app.project.global.AppConfig;
 import com.tehike.client.dtc.single.app.project.utils.ByteUtil;
-import com.tehike.client.dtc.single.app.project.utils.HbLogToFile;
 import com.tehike.client.dtc.single.app.project.utils.Logutil;
 import com.tehike.client.dtc.single.app.project.utils.NetworkUtils;
+import com.tehike.client.dtc.single.app.project.utils.RecordHbLog;
 import com.tehike.client.dtc.single.app.project.utils.SysinfoUtils;
 import com.tehike.client.dtc.single.app.project.utils.TimeUtils;
 import com.tehike.client.dtc.single.app.project.utils.WriteLogToFile;
@@ -19,7 +18,6 @@ import com.tehike.client.dtc.single.app.project.utils.WriteLogToFile;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -65,8 +63,6 @@ public class TimingSendHbService extends Service {
             mThreadPoolServer = Executors.newSingleThreadScheduledExecutor();
         }
         mThreadPoolServer.scheduleWithFixedDelay(new TimingSendHbThread(), 0L, 15000, TimeUnit.MILLISECONDS);
-
-        Logutil.i("启动心跳服务");
     }
 
     @Override
@@ -101,13 +97,13 @@ public class TimingSendHbService extends Service {
             //判断服务器地址或端口是否正确
             if (TextUtils.isEmpty(sendIp) || sendPort == -1) {
                 Logutil.e("心跳服务器地址或端口未知");
-                WriteLogToFile.info("心跳服务器地址或端口未知");
+                RecordHbLog.wirteLog("心跳服务器地址或端口未知\n"+sendIp+"\t"+sendPort);
                 return;
             }
             //判断网络是否正确
             if (!NetworkUtils.isConnected()) {
                 Logutil.e("发送心跳时网络异常");
-                WriteLogToFile.info("发送心跳时网络异常");
+                RecordHbLog.wirteLog("发送心跳时网络异常");
                 return;
             }
 
@@ -203,10 +199,10 @@ public class TimingSendHbService extends Service {
                 datagramPacket = new DatagramPacket(requestBytes, requestBytes.length, InetAddress.getByName(sendIp), sendPort);
                 socketUdp.send(datagramPacket);
                 socketUdp.close();
-                HbLogToFile.info("心跳发送成功");
+                RecordHbLog.wirteLog("心跳发送成功");
             } catch (Exception e) {
                 Logutil.e("发送心跳异常:" + e.getMessage());
-                HbLogToFile.info("发送心跳异常:" + e.getMessage());
+                RecordHbLog.wirteLog("发送心跳异常:" + e.getMessage());
             }
         }
     }

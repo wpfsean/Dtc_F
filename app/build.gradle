@@ -16,17 +16,15 @@ android {
             shrinkResources true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-         //   signingConfig signingConfigs.release
+            //   signingConfig signingConfigs.release
         }
     }
-
     sourceSets {
         main {
             //jni库的调用会到资源文件夹下libs里面找so文件
             jniLibs.srcDirs = ['libs']
         }
     }
-
     //
     configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
@@ -43,6 +41,7 @@ android {
             outputFileName = "Dtc_F${releaseTime()}_v${variant.versionName}.apk"
         }
     }
+    buildToolsVersion '26.0.2'
 }
 //生成apk名时间
 def releaseTime() {

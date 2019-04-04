@@ -3208,6 +3208,7 @@ public class VideoMonitorFragment extends BaseFragment implements NodePlayerDele
                     break;
                 case 7:
                     //单屏播放器的状态回调
+                  //  if(getActivity() !=null && isVisible()&&)
                     int singlePlayerStatusEvent = msg.arg1;
                     singlePlayerStatusCallback(singlePlayerStatusEvent);
                     break;
@@ -3316,9 +3317,6 @@ public class VideoMonitorFragment extends BaseFragment implements NodePlayerDele
     private void singlePlayerStatusCallback(final int singlePlayerStatusEvent) {
         //当前页面是否可见
         if (getActivity() == null || !isCurrentPageVisible) {
-            singleLoadingImg.setVisibility(View.GONE);
-            singleLoadingImg.clearAnimation();
-            singleLoadTv.setVisibility(View.GONE);
             return;
         }
         //状态回调

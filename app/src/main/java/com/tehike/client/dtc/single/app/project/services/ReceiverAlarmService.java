@@ -22,7 +22,7 @@ import com.tehike.client.dtc.single.app.project.utils.CryptoUtil;
 import com.tehike.client.dtc.single.app.project.utils.FileUtil;
 import com.tehike.client.dtc.single.app.project.utils.GsonUtils;
 import com.tehike.client.dtc.single.app.project.utils.Logutil;
-import com.tehike.client.dtc.single.app.project.utils.RecordLog;
+import com.tehike.client.dtc.single.app.project.utils.RecordAlarmLog;
 import com.tehike.client.dtc.single.app.project.utils.SysinfoUtils;
 import com.tehike.client.dtc.single.app.project.utils.TimeUtils;
 
@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -226,7 +225,7 @@ public class ReceiverAlarmService extends Service {
         new DbUtils(App.getApplication()).insert(DbHelper.TAB_NAME, contentValues);
 
         //此记录写入file供别人参考(SD卡)
-        RecordLog.wirteLog(mAlarmVideoSource.toString() + "发生报警");
+        RecordAlarmLog.wirteLog(mAlarmVideoSource.toString() + "发生报警");
 
         //清除屏保
         if (ActivityUtils.getTopActivity().getClass().getName().equals("com.tehike.client.dtc.single.app.project.ui.ScreenSaverActivity")) {
@@ -252,7 +251,7 @@ public class ReceiverAlarmService extends Service {
             return;
         }
         //判断报警类型
-        String alarmType = alarm.getAlarmType();
+        String alarmType = alarm.getAlarmType().trim();
         if (TextUtils.isEmpty(alarmType)) {
             Logutil.e("alarmType is null");
             return;

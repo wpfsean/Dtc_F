@@ -25,28 +25,65 @@ public class AppConfig {
      */
     public static byte[] CLOSE_ALL_ALARM_LIGHT = {0x5A, 0x4B, 0x59, 0x10, 0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, (byte) 0x80, (byte) 0x90, (byte) 0xA0, (byte) 0xB0, (byte) 0xC0, (byte) 0xD0, (byte) 0xE0, (byte) 0xF0, 0x00, (byte) 0xFF};
 
-    //控制六色灯红灯开的信息
+    /**
+     * 第一路灯开指令
+     */
     public static byte[] FIRST_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x82, 0x00, (byte) 0xFF};
-    //控制六色灯第一路开的信息
+
+    /**
+     * 第一路灯关指令
+     */
+    public static byte[] FIRST_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x80, 0x00, (byte) 0xFF};
+
+    /**
+     * 第二路灯开指令
+     */
     public static byte[] SECOND_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x92, 0x00, (byte) 0xFF};
-    //控制六色灯第三路开的信息
+
+    /**
+     * 第二路灯关指令
+     */
+    public static byte[] SECOND_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x90, 0x00, (byte) 0xFF};
+
+    /**
+     * 第三路灯开指令
+     */
     public static byte[] THIRD_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xA2, 0x00, (byte) 0xFF};
-    //控制六色灯第四路开的信息
+
+    /**
+     * 第三路灯关指令
+     */
+    public static byte[] THIRD_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xA0, 0x00, (byte) 0xFF};
+
+    /**
+     * 第四路灯开指令
+     */
     public static byte[] FORTH_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xB2, 0x00, (byte) 0xFF};
-    //控制六色灯第五路开的信息
+
+    /**
+     * 第四路灯关指令
+     */
+    public static byte[] FORTH_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xB0, 0x00, (byte) 0xFF};
+
+    /**
+     * 第五路灯开指令
+     */
     public static byte[] FIFTH_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xC2, 0x00, (byte) 0xFF};
-    //控制六色灯第六路开的信息
+
+    /**
+     * 第五路灯关指令
+     */
+    public static byte[] FIFTH_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xC0, 0x00, (byte) 0xFF};
+
+    /**
+     * 第六路灯开指令
+     */
     public static byte[] SIXTH_OPEN = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xD2, 0x00, (byte) 0xFF};
 
-
-    public static byte[] FIRST_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x80, 0x00, (byte) 0xFF};
-    public static byte[] SECOND_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0x90, 0x00, (byte) 0xFF};
-    public static byte[] THIRD_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xA0, 0x00, (byte) 0xFF};
-    public static byte[] FORTH_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xB0, 0x00, (byte) 0xFF};
-    public static byte[] FIFTH_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xC0, 0x00, (byte) 0xFF};
+    /**
+     * 第六路灯关指令
+     */
     public static byte[] SIXTH_ClOSE = {0x5A, 0x4B, 0x59, 0x01, (byte) 0xD0, 0x00, (byte) 0xFF};
-
-
 
     /**
      * 会议号码
@@ -64,20 +101,14 @@ public class AppConfig {
     public static String _SYSINFO = ":8080/webapi/sysinfo";
 
     /**
-     * 根据设备guid关联视频
+     * 根据设备guid关联视频（一个哨位分别对应三个视频源：哨位视频，面部视频及弹箱视频）
      */
     public static String _LINKED_VIDEO = ":8080/webapi/sentryvideos?guid=";
 
-
     /**
-     * 获取服务器时间的URl
+     * 获取服务器时间的URl（用于校正本机的系统时间）
      */
     public static String SERVER_TIME = ":8080/webapi/ntp";
-
-    /**
-     * 背景地图
-     */
-    public static String BACKGROUP_MAP_URL = ":8080/images/Beijing256-2.JPG";
 
     /**
      * webapi获取支持的设备类型
@@ -85,7 +116,7 @@ public class AppConfig {
     public static String _SUPPORT_DEVICE_TYPE = ":8080/webapi/devicetypes";
 
     /**
-     * webapi获取弹箱信息
+     * webapi获取当前心跳在线的设备信息
      */
     public static String _BOX_DEVICES = ":8080/webapi/onlinedevices";
 
@@ -106,17 +137,17 @@ public class AppConfig {
     public static String _BROADCAST_URL = ":8080/webapi/sipbroadcast?target=";
 
     /**
-     * webapi监听
+     * webapi监听(某个号码的哨位台)
      */
     public static String _LISTEN_URL = ":8080/webapi/siplisten?target=";
 
     /**
-     * webapi会议
+     * webapi会议（多人会议）
      */
     public static String _MEETING_URL = ":8080/webapi/sipmeeting?target=";
 
     /**
-     * webapi强拆
+     * webapi强拆（强行中断别人通话）
      */
     public static String _RELEASE_URL = ":8080/webapi/siprelease?number=";
 
@@ -150,16 +181,20 @@ public class AppConfig {
      */
     public static String _WEBAPI_SIP_SOURCE = ":8080/webapi/sips?groupid=0";
 
-
     /**
      * Sip强拆的URl(中断别人通话)
      */
     public static String _SIP_RELEASE = ":8080/webapi/siprelease?number=";
 
     /**
-     * 屏保计时
+     * 哨位地图
      */
-    public static int SCREEN_SAVE_TIME = 4000;
+    public static String _LOCATIONS = ":8080/webapi/locations";
+
+    /**
+     * 屏保计时（默认半小时1800秒）
+     */
+    public static int SCREEN_SAVE_TIME = 1800;
 
     /**
      * 更新apk的路径(远程服务器文件夹名)
@@ -167,7 +202,7 @@ public class AppConfig {
     public static String UPDATE_APK_PATH = ":8080/Dtc/";
 
     /**
-     * 更新apk的路径
+     * 更新apk的文件描述
      */
     public static String UPDATE_APK_FILE = "update.xml";
 
@@ -273,7 +308,6 @@ public class AppConfig {
      */
     public static boolean IS_CAN_SLIDE = false;
 
-
     /**
      * 是否播放声音
      */
@@ -320,11 +354,6 @@ public class AppConfig {
     public static String ALARM_ACTION = "receiveAlarm";
 
     /**
-     * 接收关闭报警的Action
-     */
-    public static String CLOSE_ALARM_ACTION = "receiveCloseAlarm";
-
-    /**
      * 接收申请开启子弹箱的Action
      */
     public static String BOX_ACTION = "receivebox";
@@ -338,7 +367,6 @@ public class AppConfig {
      * video资源解析完成广播的Action
      */
     public static String RESOLVE_VIDEO_DONE_ACTION = "refreshVideoData";
-
 
     /**
      * 接收屏保通知的广播的Action
@@ -374,7 +402,6 @@ public class AppConfig {
      * 窗口切换action
      */
     public static String CUSTOM_WINDWN = "customWindowSelected";
-
 
 
 }
