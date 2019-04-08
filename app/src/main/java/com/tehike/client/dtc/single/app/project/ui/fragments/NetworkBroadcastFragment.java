@@ -497,25 +497,28 @@ public class NetworkBroadcastFragment extends BaseFragment {
                         Logutil.e("刷新状态时网络异常");
                         handler.sendEmptyMessage(18);
                     } else {
-                        //用HttpURLConnection请求
-                        HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-                        con.setRequestMethod("GET");
-                        con.setConnectTimeout(3000);
-                        String authString = userName + ":" + userPwd;
-                        //添加 basic参数
-                        con.setRequestProperty("Authorization", "Basic " + new String(Base64.encode(authString.getBytes(), 0)));
-                        con.connect();
-                        Message message = new Message();
-                        message.what = 7;
-                        if (con.getResponseCode() == 200) {
-                            InputStream in = con.getInputStream();
-                            String result = StringUtils.readTxt(in);
-                            message.obj = result;
-                        } else {
-                            message.obj = "";
+                        if (getActivity() != null && currentPageVisible) {
+
+                            //用HttpURLConnection请求
+                            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+                            con.setRequestMethod("GET");
+                            con.setConnectTimeout(3000);
+                            String authString = userName + ":" + userPwd;
+                            //添加 basic参数
+                            con.setRequestProperty("Authorization", "Basic " + new String(Base64.encode(authString.getBytes(), 0)));
+                            con.connect();
+                            Message message = new Message();
+                            message.what = 7;
+                            if (con.getResponseCode() == 200) {
+                                InputStream in = con.getInputStream();
+                                String result = StringUtils.readTxt(in);
+                                message.obj = result;
+                            } else {
+                                message.obj = "";
+                            }
+                            handler.sendMessage(message);
+                            con.disconnect();
                         }
-                        handler.sendMessage(message);
-                        con.disconnect();
                     }
                 } catch (Exception e) {
                     Logutil.e("请求刷新状态数据时的异常--->>" + e.getMessage());
@@ -1400,12 +1403,12 @@ public class NetworkBroadcastFragment extends BaseFragment {
                 case 14:
                     //踢人成功操作
                     itemSelectedList.remove(broadcastItemSelected);
-                    if (itemSelectedList.size()>0){
+                    if (itemSelectedList.size() > 0) {
                         broadcastItemSelected = 0;
                         mWebcastingAdapter.setSeclection(0);
                         mWebcastingAdapter.notifyDataSetChanged();
                     }
-                    if (itemSelectedList.size()==0){
+                    if (itemSelectedList.size() == 0) {
                         //显示或隐藏父布局
                         display_all_broadcast_item_parent_layout.setVisibility(View.VISIBLE);
                         display_all_broadcasting_item_parent_layout.setVisibility(View.GONE);

@@ -410,19 +410,21 @@ public class BoxFragment extends BaseFragment {
     class TimingRefreshBoxStatus extends Thread {
         @Override
         public void run() {
-            //地址
-            String boxStatusUrl = AppConfig.WEB_HOST + SysinfoUtils.getServerIp() + AppConfig._BOX_DEVICES;
-            //basic请求
-            HttpBasicRequest httpBasicRequest = new HttpBasicRequest(boxStatusUrl, new HttpBasicRequest.GetHttpData() {
-                @Override
-                public void httpData(String result) {
-                    Message message = new Message();
-                    message.what = 8;
-                    message.obj = result;
-                    handler.sendMessage(message);
-                }
-            });
-            new Thread(httpBasicRequest).start();
+            if (getActivity() !=null && isCurrentFragmentVisivle) {
+                //地址
+                String boxStatusUrl = AppConfig.WEB_HOST + SysinfoUtils.getServerIp() + AppConfig._BOX_DEVICES;
+                //basic请求
+                HttpBasicRequest httpBasicRequest = new HttpBasicRequest(boxStatusUrl, new HttpBasicRequest.GetHttpData() {
+                    @Override
+                    public void httpData(String result) {
+                        Message message = new Message();
+                        message.what = 8;
+                        message.obj = result;
+                        handler.sendMessage(message);
+                    }
+                });
+                new Thread(httpBasicRequest).start();
+            }
         }
     }
 
